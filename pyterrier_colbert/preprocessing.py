@@ -61,6 +61,9 @@ class TokenRemover(DatasetCleaner):
 
         return {'text': cleaned_text, 'docno': document['docno']}
 
+class DoNothingPreprocessor(DatasetCleaner):
+    def __call__(self, document):
+        return document
 
 class NLTKTokenizer(WordTokenizer):
     def __init__(self, tokenizer_type='treebank'):
