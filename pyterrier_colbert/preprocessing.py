@@ -1,3 +1,9 @@
+import nltk
+import abc
+from abc import abstractmethod
+from nltk import TreebankWordDetokenizer, TreebankWordTokenizer
+from ir_datasets import Dataset as IRDataset
+
 from typing import Iterable, List
 import abc
 from abc import abstractmethod
@@ -19,6 +25,32 @@ class WordTokenizer:
         pass
 
 
+class WordTokenizer:
+    __metaclass__ = abc.ABCMeta
+
+    @abstractmethod
+    def tokenize(self, text):
+        pass
+
+    @abstractmethod
+    def detokenize(self, tokens):
+        pass
+
+
+class DatasetCleaner:
+    __metaclass__ = abc.ABCMeta
+
+    @abstractmethod
+    def __call__(self, document):
+        pass
+
+    def clean(self, document):
+        return self.__call__(document)
+
+
+class DatasetPreprocessor:
+    def __init__(self, dataset: IRDataset, tokenizer: WordTokenizer, preprocessor: DatasetCleaner = None):
+        self.dataset = dataset
 class DatasetCleaner:
     __metaclass__ = abc.ABCMeta
 
