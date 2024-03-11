@@ -1,12 +1,15 @@
-
-#import importlib
-#ranking = importlib.import_module('.' + 'indexing', package='pyterrier_colbert') 
-#ranking = importlib.import_module('.' + 'ranking', package='pyterrier_colbert')
+# import importlib
+# ranking = importlib.import_module('.' + 'indexing', package='pyterrier_colbert')
+# ranking = importlib.import_module('.' + 'ranking', package='pyterrier_colbert')
 
 
 import torch
 from colbert.utils.utils import print_message
 from collections import OrderedDict, defaultdict
+
+from tqdm import tqdm
+from tqdm import tqdm_notebook
+
 
 def load_checkpoint(path, model, optimizer=None, do_print=True):
     if do_print:
@@ -31,9 +34,10 @@ def load_checkpoint(path, model, optimizer=None, do_print=True):
     import transformers
     from packaging import version
     strict = True
-    if version.parse(transformers.__version__).major >= 4 and 'bert.embeddings.position_ids' not in checkpoint['model_state_dict']:
+    if version.parse(transformers.__version__).major >= 4 and 'bert.embeddings.position_ids' not in checkpoint[
+        'model_state_dict']:
         strict = False
-    
+
     model.load_state_dict(checkpoint['model_state_dict'], strict=strict)
 
     if optimizer:
@@ -44,3 +48,6 @@ def load_checkpoint(path, model, optimizer=None, do_print=True):
         print_message("#> checkpoint['batch'] =", checkpoint['batch'])
 
     return checkpoint
+
+
+
